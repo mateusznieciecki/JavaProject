@@ -7,6 +7,11 @@
 		header('Location: index.php');
 		exit();
 	}
+    if (isset($_SESSION['pass_checker']))
+	{
+		header('Location: zmiana_hasla.php');
+        exit();
+    }
 	
 ?>
 <!DOCTYPE HTML>
@@ -76,6 +81,12 @@ Zarejestruj pacjenta:
                     ?>
                 </select> <br />
         Termin ubezpieczenia: <br /> <input type="date" name="ubezpieczenie_p" required/> <br />
+        Stan: <br /> <select name="stan_p" required>
+        <option value="" selected disabled hidden>Wybierz</option>
+        <option value="zwykly">Zwykły</option>
+        <option value="pilny">Pilny</option>
+        <option value="nagly">Nagły</option>
+        </select> <br />
 		<input type="submit" value="Zarejestruj" />	
 	</form>
     </div>

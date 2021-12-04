@@ -2,7 +2,7 @@
 
 	session_start();
 	
-	if (!isset($_SESSION['zalogowany']))
+	if (!isset($_SESSION['zalogowany']) || $_SESSION['typ_prac'] != 'admin')
 	{
 		header('Location: index.php');
 		exit();
@@ -23,17 +23,14 @@
 	}
 	else
 	{
-        $p_pesel = $_POST['pesel_p'];
-        $p_imie = $_POST['imie_p'];
-        $p_nazwisko = $_POST['nazwisko_p'];
-        $p_data = $_POST['data_p'];
-        $p_lek_prow = $_POST['lek_prow_p'];
-        $p_ubezpieczenie = $_POST['ubezpieczenie_p'];
-		$p_stan = $_POST['stan_p'];
-		$sql = "INSERT INTO pacjenci (pesel, imie, nazwisko, data_urodzenia, lek_prow, ubezpieczenie, stan) VALUES ('".$p_pesel."', '".$p_imie."', '".$p_nazwisko."', '".$p_data."', '".$p_lek_prow."', '".$p_ubezpieczenie."', '".$p_stan."')";
+        $pr_login = $_POST['login_pr'];
+        $pr_imie = $_POST['imie_pr'];
+        $pr_nazwisko = $_POST['nazwisko_pr'];
+		$pr_typ = $_POST['typ_pr'];
+		$sql = "INSERT INTO pracownicy (id, login, haslo, imie, nazwisko, typ_prac) VALUES (NULL, '".$pr_login."', '".$pr_login."', '".$pr_imie."', '".$pr_nazwisko."', '".$pr_typ."')";
 		if ($conn->query($sql) === TRUE) {
             $_SESSION['ok'] = 'Zarejestrowano nowego pacjenta';
-            header('Location: zarejestruj.php');
+            header('Location: uzytkownicy.php');
         }
         else {
             $_SESSION['ok'] = 'Rejestracja nie powiodła się';

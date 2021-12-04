@@ -6,7 +6,12 @@
 	{
 		header('Location: index.php');
 		exit();
-	}	
+	}
+    if (isset($_SESSION['pass_checker']))
+	{
+		header('Location: zmiana_hasla.php');
+        exit();
+    }
 ?>
 
 <!DOCTYPE HTML>
@@ -56,7 +61,7 @@
 		$result = mysqli_query($polaczenie, $sql);
 		$datas = array();
         if (mysqli_num_rows($result) > 0){
-            echo "<table><tr><th>PESEL</th><th>Imię</th><th>Nazwisko</th><th>Data urodzenia</th><th>Lekarz prowadzący</th><th>Ustaw lekarza prowadzącego</th><th>Ubezpieczenie</th><th></th>";
+            echo "<table><tr><th>PESEL</th><th>Imię</th><th>Nazwisko</th><th>Data urodzenia</th><th>Lekarz prowadzący</th><th>Ustaw lekarza prowadzącego</th><th>Ubezpieczenie</th><th>Usuń</th>";
             while($row = mysqli_fetch_array($result)){
                 echo "<tr><td>" . $row['pesel'] . " </td><td> " . $row['imie'] . " </td><td> " . $row['nazwisko'] . " </td><td> " . $row['data_urodzenia'] . " </td><td> " . $row['lek_prow'] . " </td>"
         ?><td><form action="ustaw.php?id=<?php echo $row['id']; ?>" method="post">
@@ -79,7 +84,7 @@
             ?> Pacjent nieubezpieczony <form target="_blank" action="oswiadczenie.php?id=<?php echo $row['id']; ?>" method="post">
         <input type="submit" value="Drukuj oświadczenie" /></form> <?php
         }
-        ?></td><td><a href="usun.php?id=<?php echo $row['id']; ?>"><i class="material-icons">delete</i></a></td>
+        ?></td><td><a href="usun.php?id=<?php echo $row['id']; ?>"><i class="material-icons">person_remove</i></a></td>
     <?php
             echo "</tr>";
             }

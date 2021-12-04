@@ -6,6 +6,11 @@
 		header('Location: index.php');
 		exit();
 	}
+    if (isset($_SESSION['pass_checker']))
+	{
+		header('Location: zmiana_hasla.php');
+        exit();
+    }
 ?>
 
 <!DOCTYPE HTML>
@@ -19,11 +24,16 @@
 
 <body>
 	
- <ul>
+<ul id="menu">
      <li id="powitanie"><?php
 	echo "Użytkownik: ".$_SESSION['imie']. ' '.$_SESSION['nazwisko'];
 ?></li>
-     <li><a href="szpital.php">Strona główna</a></li>
+     <li><a <?php if($_SESSION['typ_prac'] == 'rejestrator'){
+			echo 'href="szpital.php"';
+		}
+		elseif($_SESSION['typ_prac'] == 'lekarz'){
+			echo 'href="panel.php"';
+		}?>>Strona główna</a></li>
      <li><a href="poczta.php">Poczta</a></li>
      <li><a href="logout.php">Wyloguj się</a></li>
 </ul> 

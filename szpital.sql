@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 24 Lis 2021, 23:01
+-- Czas generowania: 04 Gru 2021, 16:09
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.12
 
@@ -24,6 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `historia_chorob`
+--
+
+CREATE TABLE `historia_chorob` (
+  `id_choroby` int(11) NOT NULL,
+  `pesel` int(11) NOT NULL,
+  `icd` text NOT NULL,
+  `opis_slowny` text NOT NULL,
+  `data_badania` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `historia_chorob`
+--
+
+INSERT INTO `historia_chorob` (`id_choroby`, `pesel`, `icd`, `opis_slowny`, `data_badania`) VALUES
+(2, 799823, 'B01 Ospa wietrzna', 'Pacjent zachorował na ospę wietrzną. Bardzo poważnie. Sporo krost i czuje się dosyć słabo.', '2021-11-29'),
+(3, 799823, 'F14 Zaburzenia psychiczne i zaburzenia zachowania spowodowane używaniem kokainy (ostre zatrucie)', 'Pacjent odczuwa dosyć spore zaburzenia psychiczne. Zaleca się nadzór domowy a w razie konieczności wizytę w Choroszczy,', '2021-11-29'),
+(4, 799823, 'A84 Wirusowe zapalenie mózgu wywołane przez wirusy przenoszone przez kleszcze', 'Pacjent dostał niezwykle silnego wirusowego zapalenia. Bardzo go boli.', '2021-11-29'),
+(5, 799823, 'G10 Pląsawica Huntingtona', 'Pacjent notorycznie choruje na pląsawice. Strasznie chce mu się tańczyć.', '2021-11-29'),
+(6, 799823, 'F20 Schizofrenia', 'Pacjent dostał schizofrenii i nie uważa się już za Bogdana Supińskiego. Ciężka sprawa.', '2021-11-29'),
+(7, 799823, 'F14 Zaburzenia psychiczne i zaburzenia zachowania spowodowane używaniem kokainy (ostre zatrucie)', 'Pacjent zażył zbyt dużo kokainy.', '2021-11-29'),
+(8, 78978, 'T5404 Ciężki ostry zespół oddechowy COVID-19', 'Typowa choroba w tych czasach.', '2021-11-29');
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `pacjenci`
 --
 
@@ -34,19 +61,21 @@ CREATE TABLE `pacjenci` (
   `nazwisko` varchar(30) NOT NULL,
   `data_urodzenia` date NOT NULL,
   `lek_prow` varchar(30) NOT NULL,
-  `ubezpieczenie` date NOT NULL
+  `ubezpieczenie` date NOT NULL,
+  `stan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `pacjenci`
 --
 
-INSERT INTO `pacjenci` (`id`, `pesel`, `imie`, `nazwisko`, `data_urodzenia`, `lek_prow`, `ubezpieczenie`) VALUES
-(1, 123, 'Patryk', 'Supiński', '2019-09-03', 'Jakub Burski', '2021-11-17'),
-(2, 799823, 'Bogdan', 'Supiński', '2021-09-30', 'Artur Żmijewski', '2021-11-02'),
-(3, 7897223, 'Tomasz', 'Supiński', '2021-11-12', 'Gregory House', '2021-11-03'),
-(6, 78978, 'Antoni', 'Macierewicz', '2021-10-26', 'Artur Żmijewski', '2021-11-03'),
-(7, 432432432, 'Kacper', 'Antoniak', '2021-11-18', 'Artur Żmijewski', '2021-11-26');
+INSERT INTO `pacjenci` (`id`, `pesel`, `imie`, `nazwisko`, `data_urodzenia`, `lek_prow`, `ubezpieczenie`, `stan`) VALUES
+(1, 123, 'Patryk', 'Supiński', '2019-09-03', 'Jakub Burski', '2021-11-17', ''),
+(2, 799823, 'Bogdan', 'Supiński', '2021-09-30', 'Artur Żmijewski', '2021-11-02', 'nagly'),
+(3, 7897223, 'Tomasz', 'Supiński', '2021-11-12', 'Gregory House', '2021-11-03', ''),
+(6, 78978, 'Antoni', 'Macierewicz', '2021-10-26', 'Artur Żmijewski', '2021-11-03', 'pilny'),
+(7, 432432432, 'Kacper', 'Antoniak', '2021-11-18', 'Artur Żmijewski', '2021-11-26', ''),
+(8, 2147483647, 'Błażej', 'Augustyn', '1960-08-14', 'Artur Żmijewski', '2021-12-02', 'nagly');
 
 -- --------------------------------------------------------
 
@@ -72,7 +101,10 @@ INSERT INTO `pracownicy` (`id`, `login`, `haslo`, `imie`, `nazwisko`, `typ_prac`
 (2, 'jburski', 'qwerty', 'Jakub', 'Burski', 'lekarz'),
 (3, 'omateusz', 'qwerty', 'Ojciec', 'Mateusz', 'lekarz'),
 (4, 'azmijewski', 'qwerty', 'Artur', 'Żmijewski', 'lekarz'),
-(5, 'ghouse', 'qwerty', 'Gregory', 'House', 'lekarz');
+(5, 'ghouse', 'qwerty', 'Gregory', 'House', 'lekarz'),
+(6, 'admin', 'qwerty', 'admin', 'admin', 'admin'),
+(9, 'test', 'test', 'teścik', 'testowski', 'lekarz'),
+(10, 'mfilipek', 'mfilipek', 'Magdalena', 'Filipek', 'lekarz');
 
 -- --------------------------------------------------------
 
@@ -155,6 +187,12 @@ INSERT INTO `wiadomosci` (`id_wiadomosci`, `temat`, `tresc`, `od`, `do`, `status
 --
 
 --
+-- Indeksy dla tabeli `historia_chorob`
+--
+ALTER TABLE `historia_chorob`
+  ADD PRIMARY KEY (`id_choroby`);
+
+--
 -- Indeksy dla tabeli `pacjenci`
 --
 ALTER TABLE `pacjenci`
@@ -183,22 +221,28 @@ ALTER TABLE `wiadomosci`
 --
 
 --
+-- AUTO_INCREMENT dla tabeli `historia_chorob`
+--
+ALTER TABLE `historia_chorob`
+  MODIFY `id_choroby` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT dla tabeli `pacjenci`
 --
 ALTER TABLE `pacjenci`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT dla tabeli `pracownicy`
 --
 ALTER TABLE `pracownicy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT dla tabeli `rozpoznanie`
 --
 ALTER TABLE `rozpoznanie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT dla tabeli `wiadomosci`

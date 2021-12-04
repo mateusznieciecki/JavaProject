@@ -1,7 +1,10 @@
 <?php
 
 	session_start();
-	
+	if (isset($_SESSION['pass_checker']))
+	{
+		header('Location: zmiana_hasla.php');
+	}
 	if (!isset($_SESSION['zalogowany']))
 	{
 		header('Location: index.php');
@@ -20,7 +23,7 @@
 
 <body>
 	
- <ul>
+ <ul id="menu">
      <li id="powitanie"><?php
 	echo "Użytkownik: ".$_SESSION['imie']. ' '.$_SESSION['nazwisko'];
 ?></li>

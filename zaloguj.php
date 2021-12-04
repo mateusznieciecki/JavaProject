@@ -10,11 +10,11 @@
 
 	require_once "connect.php";
 
-	$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
+	$conn = @new mysqli($host, $db_user, $db_password, $db_name);
 	
-	if ($polaczenie->connect_errno!=0)
+	if ($conn->connect_errno!=0)
 	{
-		echo "Error: ".$polaczenie->connect_errno;
+		echo "Error: ".$conn->connect_errno;
 	}
 	else
 	{
@@ -24,26 +24,43 @@
 		$login = htmlentities($login, ENT_QUOTES, "UTF-8");
 		$haslo = htmlentities($haslo, ENT_QUOTES, "UTF-8");
 	
-		if ($rezultat = @$polaczenie->query(
+		if ($result = @$conn->query(
 		sprintf("SELECT * FROM pracownicy WHERE login='%s' AND haslo='%s'",
-		mysqli_real_escape_string($polaczenie,$login),
-		mysqli_real_escape_string($polaczenie,$haslo))))
+		mysqli_real_escape_string($conn,$login),
+		mysqli_real_escape_string($conn,$haslo))))
 		{
-			$ilu_userow = $rezultat->num_rows;
+			$ilu_userow = $result->num_rows;
 			if($ilu_userow>0)
 			{
 				$_SESSION['zalogowany'] = true;
 				
-				$wiersz = $rezultat->fetch_assoc();
-				$_SESSION['id'] = $wiersz['id'];
-				$_SESSION['login'] = $wiersz['login'];
-				$_SESSION['haslo'] = $wiersz['haslo'];
-				$_SESSION['imie'] = $wiersz['imie'];
-				$_SESSION['nazwisko'] = $wiersz['nazwisko'];
+				$row = $result->fetch_assoc();
+				$_SESSION['id'] = $row['id'];
+				$_SESSION['login'] = $row['login'];
+				$_SESSION['haslo'] = $row['haslo'];
+				$_SESSION['imie'] = $row['imie'];
+				$_SESSION['nazwisko'] = $row['nazwisko'];
+				$_SESSION['typ_prac'] = $row['typ_prac'];
 				
 				unset($_SESSION['blad']);
-				$rezultat->free_result();
-				header('Location: szpital.php');
+				$result->free_result();
+				if($_SESSION['login'] == $_SESSION['haslo'])
+				{
+					$_SESSION['pass_checker'] = 1;
+					header('Location: zmiana_hasla.php');
+				}
+				else{
+					if($row['typ_prac'] == 'rejestrator'){
+						header('Location: szpital.php');
+					}
+					elseif($row['typ_prac'] == 'lekarz'){
+						header('Location: panel.php');
+					}
+					elseif($row['typ_prac'] == 'admin'){
+						header('Location: admin.php');
+					}
+				}
+				
 				
 			} else {
 				
@@ -54,7 +71,7 @@
 			
 		}
 		
-		$polaczenie->close();
+		$conn->close();
 	}
 	
 ?>

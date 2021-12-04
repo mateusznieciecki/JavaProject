@@ -2,12 +2,23 @@
 
 	session_start();
 	
-	if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==true))
+	if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==true) && (!isset($_SESSION['pass_checker'])))
 	{
-		header('Location: szpital.php');
+		if($_SESSION['typ_prac'] == 'rejestrator'){
+			header('Location: szpital.php');
+		}
+		elseif($_SESSION['typ_prac'] == 'lekarz'){
+			header('Location: panel.php');
+		}
+		elseif($_SESSION['typ_prac'] == 'admin'){
+			header('Location: admin.php');
+		}
 		exit();
 	}
-
+	if(isset($_SESSION['pass_checker']))
+	{
+		unset($_SESSION['pass_checker']);
+	}
 ?>
 
 <!DOCTYPE HTML>
