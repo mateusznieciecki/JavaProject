@@ -43,12 +43,17 @@
      <li><a href="icd.php">ICD</a></li>
      <li><a href="logout.php">Wyloguj się</a></li>
 </ul>
-<h3>Szukaj ICD</h3>
-<form action="icd.php" method="post">
+<h3>Dodaj leki</h3>
+<form action="dodaj_leki_wyk.php" method="post">
+<input type="text" name="lek" placeholder='Nazwa leku' required/> <br />
+<input type="number" name="ilosc" placeholder='Ilość' required/> <br />
+<input type="submit" value="Dodaj" /><br>
+    </form>
+<form action="dodaj_leki.php" method="post">
 <input type="text" name="szukane" placeholder='Treść wyszukiwania...' required/> <br />
 <input type="submit" value="Szukaj" /><br>
-<a href="dodaj_icd.php"><i class="material-icons">add</i>Dodaj</a>
     </form>
+    <h3>Lista leków</h3>
 <?php
     if(isset($_POST['szukane'])){
         $szukane = $_POST['szukane'];
@@ -66,38 +71,49 @@
 	{
         if(isset($_GET['sort'])){
             if($_GET['sort']==1){
-                $sql = "SELECT * FROM rozpoznanie ORDER BY icd ASC";
+                $sql = "SELECT * FROM leki ORDER BY nazwa ASC";
             }
             elseif($_GET['sort']==2){
-                $sql = "SELECT * FROM rozpoznanie ORDER BY icd DESC";
+                $sql = "SELECT * FROM leki ORDER BY nazwa DESC";
             }
             elseif($_GET['sort']==3){
-                $sql = "SELECT * FROM rozpoznanie ORDER BY opis ASC";
+                $sql = "SELECT * FROM leki ORDER BY ilosc ASC";
             }
             elseif($_GET['sort']==4){
-                $sql = "SELECT * FROM rozpoznanie ORDER BY opis DESC";
+                $sql = "SELECT * FROM leki ORDER BY ilosc DESC";
             }
         }
         elseif(isset($_POST['szukane'])){
-            $sql = "SELECT * FROM rozpoznanie WHERE icd LIKE '%".$szukane."%' OR opis LIKE '%".$szukane."%'";
+            $sql = "SELECT * FROM leki WHERE nazwa LIKE '%".$szukane."%' OR ilosc LIKE '%".$szukane."%'";
             $_SESSION['pomocnicza'] = 1;
         }
         else{
-            $sql = "SELECT * FROM rozpoznanie";
+            $sql = "SELECT * FROM leki";
         }
 		$result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0){
-            echo '<table><tr><th>ICD<a href="icd.php?sort=1"><i class="material-icons">keyboard_arrow_up</i></a><a href="icd.php?sort=2"><i class="material-icons">keyboard_arrow_down</i></a></th><th>Opis<a href="icd.php?sort=3"><i class="material-icons">keyboard_arrow_up</i></a><a href="icd.php?sort=4"><i class="material-icons">keyboard_arrow_down</i></a></th><th>Usuń</th><th>Edytuj</th>';
+            echo '<table><tr><th>Nazwa<a href="dodaj_leki.php?sort=1"><i class="material-icons">keyboard_arrow_up</i></a><a href="dodaj_leki.php?sort=2"><i class="material-icons">keyboard_arrow_down</i></a></th><th>ilosc<a href="dodaj_leki.php?sort=3"><i class="material-icons">keyboard_arrow_up</i></a><a href="dodaj_leki.php?sort=4"><i class="material-icons">keyboard_arrow_down</i></a></th></tr>';
             while($row = mysqli_fetch_array($result)){
-                echo '<tr><td>' . $row['icd'] .  '</td><td>' . $row['opis'] . '</td>';
-                ?>
-                <td><a href="usun_icd.php?id=<?php echo $row['id']; ?>"><i class="material-icons">delete</i></a></td>
-                <td><a href="edytuj_icd.php?id=<?php echo $row['id']; ?>"><i class="material-icons">edit</i></a></td></tr>
-                <?php
+                echo '<tr><td>' . $row['nazwa'] .  '</td><td>' . $row['ilosc'] . '</td></tr>';
             }
+        echo '</table>';
         }
     }
     ?>
-    </table>
+    <h3>Zamówienia leków</h3>
+    <?php
+        $sql2 = "SELECT * FROM zamowienia_lekow WHERE status_zamowienia=0";
+        $result2 = mysqli_query($conn, $sql2);
+        if (mysqli_num_rows($result2) > 0){
+            echo '<table><tr><th>Nazwa</th><th>Ilość leku</th><th>Lekarz zamawiający</th></tr>';
+            while($row2 = mysqli_fetch_array($result2)){
+                echo '<tr><td>' . $row2['lek'] .  '</td><td>' . $row2['ilosc_leku'] . '</td><td>' . $row2['lekarz'] . '</td></tr>';
+            }
+        echo '</table>';
+        }
+        else{
+            echo "Brak zamówień";
+        }
+    ?>
 </body>
 </html>

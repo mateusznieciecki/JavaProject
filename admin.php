@@ -31,6 +31,7 @@
      <li><a href="poczta.php">Poczta</a></li>
      <li><a href="uzytkownicy.php">Użytkownicy</a></li>
      <li><a href="icd.php">ICD</a></li>
+	 <li><a href="dodaj_leki.php">Dodaj leki</a></li>
      <li><a href="logout.php">Wyloguj się</a></li>
 </ul> 
     <h2>Panel administratora</h2>

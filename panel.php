@@ -2,7 +2,7 @@
 
 	session_start();
 	
-	if (!isset($_SESSION['zalogowany']))
+	if (!isset($_SESSION['zalogowany']) || $_SESSION['typ_prac'] != 'lekarz')
 	{
 		header('Location: index.php');
 		exit();
@@ -31,6 +31,7 @@
 ?></li>
      <li><a href="panel.php">Strona główna</a></li>
      <li><a href="poczta.php">Poczta</a></li>
+     <li><a href="zamow_leki.php">Zamów leki</a></li>
      <li><a href="logout.php">Wyloguj się</a></li>
 </ul> 
     <h2>Oczekujący pacjenci</h2>

@@ -36,7 +36,6 @@
     </div>
     <div class="logowanie">
 	<form action="zaloguj.php" method="post">
-        
 		LOGIN <br /> <input type="text" name="login" /> <br />
 		HASŁO <br /> <input type="password" name="haslo" /> <br /><br />
 		<input type="submit" value="Zaloguj się" />
