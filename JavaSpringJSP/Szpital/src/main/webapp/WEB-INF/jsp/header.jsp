@@ -5,9 +5,14 @@
     <%@ page import="java.util.List" %>
     <%@ page import="java.util.Date" %>
     <%@ page import="java.text.SimpleDateFormat" %>
+    <%@ page import ="com.example.Szpital.entities.Leki" %>
+    <%@ page import ="com.example.Szpital.entities.Komentarze" %>
+    <%@ page import ="com.example.Szpital.entities.Wpisy" %>
     <%@ page import ="com.example.Szpital.entities.Pracownicy" %>
     <%@ page import ="com.example.Szpital.entities.Pacjenci" %>
     <%@ page import ="com.example.Szpital.entities.Wiadomosci" %>
+    <%@ page import ="com.example.Szpital.entities.HistoriaChorob" %>
+    <%@ page import ="com.example.Szpital.entities.Rozpoznanie" %>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

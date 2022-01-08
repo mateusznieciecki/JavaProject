@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface IWiadomosciRepository extends JpaRepository<Wiadomosci, Integer> {
     List<Wiadomosci> findAllByDoKogo(String doKogo);
+    List<Wiadomosci> findAllByOd(String login);
 }

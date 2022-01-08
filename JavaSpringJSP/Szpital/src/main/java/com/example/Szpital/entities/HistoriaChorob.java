@@ -17,9 +17,19 @@ import java.util.Date;
 public class HistoriaChorob {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_choroby;
+    @Column(name = "id_choroby")
+    private int idChoroby;
     private long pesel;
     private String icd;
-    private String opis_slowny;
-    private Date data_badania;
+    @Column(name = "opis_slowny")
+    private String opisSlowny;
+    @Column(name = "data_badania")
+    private Date dataBadania;
+
+    public HistoriaChorob(long pesel, String icd, String opisSlowny){
+        this.pesel = pesel;
+        this.icd = icd;
+        this.opisSlowny = opisSlowny;
+        this.dataBadania = new Date();
+    }
 }

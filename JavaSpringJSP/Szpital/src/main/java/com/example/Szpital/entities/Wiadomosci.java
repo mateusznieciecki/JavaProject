@@ -24,4 +24,12 @@ public class Wiadomosci {
     @Column(name = "do_kogo")
     private String doKogo;
     private int status;
+
+    public Wiadomosci(String temat, String tresc, String od, String doKogo) {
+        this.temat = temat;
+        this.tresc = tresc;
+        this.od = od;
+        this.doKogo = doKogo;
+        this.status = 0;
+    }
 }

@@ -18,7 +18,15 @@ public class ZamowieniaLekow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String lek;
-    private int ilosc_leku;
+    @Column(name = "ilosc_leku")
+    private int iloscLeku;
     private String lekarz;
     private int status_zamowienia;
+
+    public ZamowieniaLekow(String lek, int iloscLeku, String lekarz){
+        this.lek = lek;
+        this.iloscLeku = iloscLeku;
+        this.lekarz = lekarz;
+        this.status_zamowienia = 0;
+    }
 }

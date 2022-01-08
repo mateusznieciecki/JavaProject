@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegisterService {
+
     @Autowired
     private IPacjenciRepository iPacjenciRepository;
+
     @Autowired
     private IPracownicyRepository iPracownicyRepository;
 
@@ -35,22 +38,22 @@ public class RegisterService {
         return iPacjenciRepository.findById(id).orElse(null);
     }
 
-    public void updatePacjent(String lekProwP, int id){
+    public void updatePacjent(String lekProwP, int id) {
         Pacjenci pacjent = iPacjenciRepository.findById(id).orElse(null);
-        if(pacjent != null){
+        if (pacjent != null) {
             pacjent.setLekProw(lekProwP);
             iPacjenciRepository.save(pacjent);
         }
     }
 
-    public void deletePacjent(int id){
+    public void deletePacjent(int id) {
         Pacjenci pacjent = iPacjenciRepository.findById(id).orElse(null);
-        if(pacjent != null){
+        if (pacjent != null) {
             iPacjenciRepository.delete(pacjent);
         }
     }
 
-    public void addPacjent(long peselP, String imieP, String nazwiskoP, Date dataP, String lekProwP, Date ubezpieczenieP, String stanP){
+    public void addPacjent(long peselP, String imieP, String nazwiskoP, Date dataP, String lekProwP, Date ubezpieczenieP, String stanP) {
         Pacjenci pacjent = new Pacjenci(peselP, imieP, nazwiskoP, dataP, lekProwP, ubezpieczenieP, stanP);
         iPacjenciRepository.save(pacjent);
     }

@@ -11,10 +11,10 @@ public class LoginService {
     @Autowired
     private IPracownicyRepository iPracownicyRepository;
 
-    public Pracownicy login(String login, String haslo){
+    public Pracownicy login(String login, String haslo) {
         Pracownicy pracownik = iPracownicyRepository.findByLogin(login);
-        if(pracownik != null){
-            if(pracownik.getHaslo().equals(haslo)){
+        if (pracownik != null) {
+            if (pracownik.getHaslo().equals(haslo)) {
                 return pracownik;
             }
         }

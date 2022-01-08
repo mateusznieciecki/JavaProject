@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ILekiRepository extends JpaRepository<Leki, Integer> {
+    Leki findByNazwa(String nazwa);
 }

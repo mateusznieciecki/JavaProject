@@ -16,8 +16,18 @@ import javax.persistence.*;
 public class Komentarze {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_komentarza;
-    private String autor_komentarza;
-    private String tresc_komentarza;
-    private int id_wpis;
+    @Column(name = "id_komentarza")
+    private int idKomentarza;
+    @Column(name = "autor_komentarza")
+    private String autorKomentarza;
+    @Column(name = "tresc_komentarza")
+    private String trescKomentarza;
+    @Column(name = "id_wpis")
+    private int idWpis;
+
+    public Komentarze (String autorKomentarza, String trescKomentarza, int idWpis){
+        this.autorKomentarza = autorKomentarza;
+        this.trescKomentarza = trescKomentarza;
+        this.idWpis = idWpis;
+    }
 }

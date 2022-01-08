@@ -23,10 +23,10 @@
                             <a class="nav-link active" href="/api/page/szpital">Strona Główna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="poczta.php">Poczta</a>
+                            <a class="nav-link" href="/api/mail/openMailbox">Poczta</a>
                         </li>
                         <li class="nav-item d-md-none" style="text-align: center;">
-                            <a href="logout.php">Wyloguj się</a>
+                            <a href="/api/login/logout">Wyloguj się</a>
                         </li>
                     </ul>
 

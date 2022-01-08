@@ -52,17 +52,17 @@ public class RegisterController {
     @PostMapping(value = "/updateLekarz")
     public String updateLekarz(HttpServletRequest request, ModelMap model, @RequestParam String lekProwP, @RequestParam int id) {
         registerService.updatePacjent(lekProwP, id);
-        return pageController.szpital();
+        return pageController.getSzpitalPage();
     }
 
     @GetMapping(value = "/deletePacjent")
     public String deletePacjent(HttpServletRequest request, ModelMap model, @RequestParam int id) {
         registerService.deletePacjent(id);
-        return pageController.szpital();
+        return pageController.getSzpitalPage();
     }
 
     @PostMapping(value = "/addPacjent")
-    public String addPacjent(HttpServletRequest request, ModelMap model, @RequestParam long peselP, @RequestParam String imieP, @RequestParam String nazwiskoP, @RequestParam String dataP, @RequestParam String lekProwP, @RequestParam String ubezpieczenieP, @RequestParam String stanP) {
+    public String addPacjent(HttpServletRequest request, ModelMap model, @RequestParam Long peselP, @RequestParam String imieP, @RequestParam String nazwiskoP, @RequestParam String dataP, @RequestParam String lekProwP, @RequestParam String ubezpieczenieP, @RequestParam String stanP) {
         Date dataUr = null;
         Date dataUb = null;
 
@@ -74,6 +74,6 @@ public class RegisterController {
         }
 
         registerService.addPacjent(peselP, imieP, nazwiskoP, dataUr, lekProwP, dataUb, stanP);
-        return pageController.szpital();
+        return pageController.getSzpitalPage();
     }
 }

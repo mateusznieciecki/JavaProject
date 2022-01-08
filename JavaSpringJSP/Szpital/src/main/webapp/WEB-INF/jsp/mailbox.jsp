@@ -46,7 +46,7 @@
         </li>
         <li class="nav-item" role="presentation">
 
-            <button class="nav-link" onclick="location.href = '/api/mail/sent';" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-selected="false">Wysłane</button>
+            <button class="nav-link" onclick="location.href = '/api/mail/sentMailbox';" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-selected="false">Wysłane</button>
 
         </li>
     </ul>
