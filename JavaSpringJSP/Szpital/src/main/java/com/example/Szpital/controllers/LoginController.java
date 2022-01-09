@@ -48,7 +48,7 @@ public class LoginController {
         } else if (pracownik.getTypPrac().equals("lekarz")) {
             return pageController.getDoctorPage(request, model);
         }
-        return pageController.getAdminPage();
+        return pageController.getAdminPage(request, model);
     }
 
     @GetMapping(value = "/logout")

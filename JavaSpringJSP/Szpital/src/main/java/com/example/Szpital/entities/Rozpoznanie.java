@@ -19,4 +19,9 @@ public class Rozpoznanie {
     private int id;
     private String icd;
     private String opis;
+
+    public Rozpoznanie(String icd, String opis) {
+        this.icd = icd;
+        this.opis = opis;
+    }
 }

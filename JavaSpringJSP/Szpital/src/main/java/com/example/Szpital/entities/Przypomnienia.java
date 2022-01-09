@@ -17,7 +17,15 @@ import java.util.Date;
 public class Przypomnienia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_przypomnienia;
-    private Date data_przypomnienia;
-    private String tresc_przypomnienia;
+    @Column(name = "id_przypomnienia")
+    private int idPrzypomnienia;
+    @Column(name = "data_przypomnienia")
+    private Date dataPrzypomnienia;
+    @Column(name = "tresc_przypomnienia")
+    private String trescPrzypomnienia;
+
+    public Przypomnienia(Date dataPrzypomnienia, String trescPrzypomnienia) {
+        this.dataPrzypomnienia = dataPrzypomnienia;
+        this.trescPrzypomnienia = trescPrzypomnienia;
+    }
 }

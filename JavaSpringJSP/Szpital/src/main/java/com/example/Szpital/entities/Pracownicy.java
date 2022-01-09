@@ -23,4 +23,12 @@ public class Pracownicy {
     private String nazwisko;
     @Column(name = "typ_prac")
     private String typPrac;
+
+    public Pracownicy(String login, String imie, String nazwisko, String typPrac) {
+        this.login = login;
+        this.haslo = login;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.typPrac = typPrac;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.Szpital.controllers;
 
 import com.example.Szpital.entities.*;
+import com.example.Szpital.services.AdminService;
 import com.example.Szpital.services.ForumService;
 import com.example.Szpital.services.MedicalCareService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,6 +24,9 @@ public class PageController {
 
     @Autowired
     private ForumService forumService;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping(value = "/szpital")
     public String getSzpitalPage() {
@@ -64,9 +69,28 @@ public class PageController {
         return "doctor";
     }
 
-    @GetMapping(value = "/admin")
-    public String getAdminPage() {
+    @GetMapping(value = "/admin/panel")
+    public String getAdminPage(HttpServletRequest request, ModelMap model) {
+        List<Przypomnienia> listOfReminders = adminService.getAllReminders();
+        model.put("listOfReminders", listOfReminders);
+
         return "admin";
+    }
+
+    @GetMapping(value = "/admin/users")
+    public String getAdminUsersPage(HttpServletRequest request, ModelMap model) {
+        List<Pracownicy> listOfUsers = adminService.getAllUsers();
+        model.put("listOfUsers", listOfUsers);
+
+        return "users";
+    }
+
+    @GetMapping(value = "/admin/users/edit")
+    public String getEditUserPage(HttpServletRequest request, ModelMap model, @RequestParam int userId) {
+        Pracownicy user = adminService.getUser(userId);
+        model.put("user", user);
+
+        return "editUser";
     }
 
     @GetMapping(value = "/patient")
@@ -88,25 +112,41 @@ public class PageController {
     }
 
     @GetMapping(value = "/medicineConfirmation")
-    public String getMedicineConfirmationPage(){
+    public String getMedicineConfirmationPage() {
         return "medicineConfirmation";
     }
 
-    @GetMapping (value = "/forum")
-    public String getForumPage(HttpServletRequest request, ModelMap model){
+    @GetMapping(value = "/forum")
+    public String getForumPage(HttpServletRequest request, ModelMap model) {
         List<Wpisy> listOfTopics = forumService.getAllTopics();
         model.put("listOfTopics", listOfTopics);
 
         return "forum";
     }
 
-    @GetMapping (value = "/loadTopic")
+    @GetMapping(value = "/loadTopic")
     public String getLoadTopicPage() {
         return "loadTopic";
     }
 
     @PostMapping(value = "/topic/add")
-    public String getAddTopic(){
+    public String getAddTopic() {
         return "addTopic";
+    }
+
+    @GetMapping("/icd")
+    public String getIcdPage(HttpServletRequest request, ModelMap model) {
+        List<Rozpoznanie> listOfIcd = medicalCareService.getListOfIcd();
+        model.put("listOfIcd", listOfIcd);
+
+        return "icd";
+    }
+
+    @GetMapping("/icd/edit")
+    public String getEditIcdPage(HttpServletRequest request, ModelMap model, @RequestParam int icdId) {
+        Rozpoznanie diagnosis = medicalCareService.findIcd(icdId);
+        model.put("diagnosis", diagnosis);
+
+        return "editIcd";
     }
 }

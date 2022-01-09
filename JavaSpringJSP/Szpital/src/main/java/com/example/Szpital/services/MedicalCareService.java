@@ -82,4 +82,8 @@ public class MedicalCareService {
         iZamowieniaLekowRepository.save(order);
     }
 
+    public Rozpoznanie findIcd(int icdId){
+        return iRozpoznanieRepository.findById(icdId).orElse(null);
+    }
+
 }
