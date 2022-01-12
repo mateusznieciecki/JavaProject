@@ -14,6 +14,7 @@
     <%@ page import ="com.example.Szpital.entities.HistoriaChorob" %>
     <%@ page import ="com.example.Szpital.entities.Rozpoznanie" %>
     <%@ page import ="com.example.Szpital.entities.Przypomnienia" %>
+    <%@ page import ="com.example.Szpital.entities.ZamowieniaLekow" %>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

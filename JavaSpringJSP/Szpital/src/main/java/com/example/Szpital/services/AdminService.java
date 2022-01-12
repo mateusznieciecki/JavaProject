@@ -1,11 +1,7 @@
 package com.example.Szpital.services;
 
-import com.example.Szpital.entities.Pracownicy;
-import com.example.Szpital.entities.Przypomnienia;
-import com.example.Szpital.entities.Rozpoznanie;
-import com.example.Szpital.repositories.IPracownicyRepository;
-import com.example.Szpital.repositories.IPrzypomnieniaRepository;
-import com.example.Szpital.repositories.IRozpoznanieRepository;
+import com.example.Szpital.entities.*;
+import com.example.Szpital.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +21,12 @@ public class AdminService {
 
     @Autowired
     private IRozpoznanieRepository iRozpoznanieRepository;
+
+    @Autowired
+    private IZamowieniaLekowRepository iZamowieniaLekowRepository;
+
+    @Autowired
+    private ILekiRepository iLekiRepository;
 
     public List<Przypomnienia> getAllReminders() {
         Date date = new Date();
@@ -94,18 +96,39 @@ public class AdminService {
         }
     }
 
-    public void editIcd(int icdId, String icd, String description){
+    public void editIcd(int icdId, String icd, String description) {
         Rozpoznanie diagnosis = iRozpoznanieRepository.findById(icdId).orElse(null);
-        if(diagnosis != null){
+        if (diagnosis != null) {
             diagnosis.setIcd(icd);
             diagnosis.setOpis(description);
             iRozpoznanieRepository.save(diagnosis);
         }
     }
 
-    public void addIcd(String icd, String description){
+    public void addIcd(String icd, String description) {
         Rozpoznanie diagnosis = new Rozpoznanie(icd, description);
         iRozpoznanieRepository.save(diagnosis);
+    }
+
+    public void addMedicine(String name, int amount) {
+        Leki medicine = iLekiRepository.findByNazwa(name);
+        if (medicine != null) {
+            medicine.setIlosc(medicine.getIlosc() + amount);
+        } else {
+            medicine = new Leki(name, amount);
+        }
+
+        List<ZamowieniaLekow> listOfOrders = iZamowieniaLekowRepository.findAllByLekAndStatus(name ,0);
+        for (ZamowieniaLekow order : listOfOrders) {
+            if (order.getIloscLeku() < medicine.getIlosc()) {
+                medicine.setIlosc(medicine.getIlosc() - order.getIloscLeku());
+                order.setStatus(1);
+                iZamowieniaLekowRepository.save(order);
+            }
+        }
+
+        iLekiRepository.save(medicine);
+
     }
 
 }

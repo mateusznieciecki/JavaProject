@@ -21,12 +21,13 @@ public class ZamowieniaLekow {
     @Column(name = "ilosc_leku")
     private int iloscLeku;
     private String lekarz;
-    private int status_zamowienia;
+    @Column(name = "status_zamowienia")
+    private int status;
 
     public ZamowieniaLekow(String lek, int iloscLeku, String lekarz){
         this.lek = lek;
         this.iloscLeku = iloscLeku;
         this.lekarz = lekarz;
-        this.status_zamowienia = 0;
+        this.status = 0;
     }
 }

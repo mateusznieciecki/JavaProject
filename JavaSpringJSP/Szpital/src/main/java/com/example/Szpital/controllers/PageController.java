@@ -105,7 +105,7 @@ public class PageController {
 
     @GetMapping(value = "/orderMedicines")
     public String getOrderMedicinesPage(HttpServletRequest request, ModelMap modelMap) {
-        List<Leki> listOfMedicines = medicalCareService.getAllMedicines();
+        List<Leki> listOfMedicines = medicalCareService.getAllMedicines(null);
         modelMap.put("listOfMedicines", listOfMedicines);
 
         return "orderMedicines";
@@ -135,8 +135,16 @@ public class PageController {
     }
 
     @GetMapping("/icd")
-    public String getIcdPage(HttpServletRequest request, ModelMap model) {
-        List<Rozpoznanie> listOfIcd = medicalCareService.getListOfIcd();
+    public String getIcdPage(HttpServletRequest request, ModelMap model, @RequestParam(required = false) Integer sortOption) {
+        List<Rozpoznanie> listOfIcd = medicalCareService.getListOfIcd(sortOption);
+        model.put("listOfIcd", listOfIcd);
+
+        return "icd";
+    }
+
+    @PostMapping("/icd/search")
+    public String searchSpecificIcd(HttpServletRequest request, ModelMap model, @RequestParam String searchValue) {
+        List<Rozpoznanie> listOfIcd = medicalCareService.searchSpecificIcd(searchValue);
         model.put("listOfIcd", listOfIcd);
 
         return "icd";
@@ -149,4 +157,26 @@ public class PageController {
 
         return "editIcd";
     }
+
+    @GetMapping("/medicines")
+    public String getMedicinesPage(HttpServletRequest request, ModelMap model, @RequestParam(required = false) Integer sortOption) {
+        List<Leki> listOfMedicines = medicalCareService.getAllMedicines(sortOption);
+        model.put("listOfMedicines", listOfMedicines);
+
+        List<ZamowieniaLekow> listOfOrderedMedicines = medicalCareService.findAllOrderedMedicines();
+        model.put("listOfOrderedMedicines", listOfOrderedMedicines);
+
+        return "addMedicines";
+    }
+
+    @PostMapping("/medicines/search")
+    public String searchSpecificMedicines(HttpServletRequest request, ModelMap model, @RequestParam String searchValue){
+        List<Leki> listOfMedicines = medicalCareService.searchSpecificMedicines(searchValue);
+        model.put("listOfMedicines", listOfMedicines);
+
+        List<ZamowieniaLekow> listOfOrderedMedicines = medicalCareService.findAllOrderedMedicines();
+        model.put("listOfOrderedMedicines", listOfOrderedMedicines);
+        return "addMedicines";
+    }
+
 }

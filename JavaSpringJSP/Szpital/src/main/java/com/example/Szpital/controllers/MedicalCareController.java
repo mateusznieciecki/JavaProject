@@ -34,7 +34,7 @@ public class MedicalCareController {
         List<HistoriaChorob> listOfPatientsHistory = medicalCareService.findPatientsHistory(patient.getPesel(), 2);
         model.put("listOfPatientsHistory", listOfPatientsHistory);
 
-        List<Rozpoznanie> listOfIcd = medicalCareService.getListOfIcd();
+        List<Rozpoznanie> listOfIcd = medicalCareService.getListOfIcd(null);
         model.put("listOfIcd", listOfIcd);
         request.getSession().setAttribute("patient", patient);
         return pageController.getPatientPage();

@@ -27,7 +27,7 @@
     							<a class="nav-link active" href="/api/page/icd">ICD</a>
     						</li>
     						<li class="nav-item">
-    							<a class="nav-link" href="/api/admin/addMedicines">Dodaj leki</a>
+    							<a class="nav-link" href="/api/page/medicines">Dodaj leki</a>
     						</li>
     						<li class="nav-item d-md-none" style="text-align: center;">
     							<a href="/api/login/logout">Wyloguj się</a>
@@ -52,10 +52,10 @@
 		<h2>ICD:</h2>
 	</div>
 	<div class="collapse" id="search_collapse">
-		<form class="form-signin" action="icd.php" method="post">
+		<form class="form-signin" action="/api/page/icd/search" method="post">
 			<p class="h3">Szukaj</p>
 			<div class="form-floating mb-3">
-				<input type="text" class="form-control" name="szukane" placeholder="Treść wyszukiwania..." required>
+				<input type="text" class="form-control" name="searchValue" placeholder="Treść wyszukiwania..." required>
 			</div>
 			<div class="d-flex justify-content-center">
 				<input type="submit" class="btn btn-secondary" value="Szukaj ICD" />
@@ -77,7 +77,7 @@
 		</form>
 	</div>
 	<div class="table-responsive">
-				<table class="table"><thead class="thead-dark"><tr><th>ICD<a class="icons" href="icd.php?sort=1"><i class="material-icons">keyboard_arrow_up</i></a><a class="icons" href="icd.php?sort=2"><i class="material-icons">keyboard_arrow_down</i></a></th><th>Opis<a class="icons" href="icd.php?sort=3"><i class="material-icons">keyboard_arrow_up</i></a><a class="icons" href="icd.php?sort=4"><i class="material-icons">keyboard_arrow_down</i></a></th><th>Usuń</th><th>Edytuj</th></tr></thead>
+				<table class="table"><thead class="thead-dark"><tr><th>ICD<a class="icons" href="/api/page/icd?sortOption=1"><i class="material-icons">keyboard_arrow_up</i></a><a class="icons" href="/api/page/icd?sortOption=2"><i class="material-icons">keyboard_arrow_down</i></a></th><th>Opis<a class="icons" href="/api/page/icd?sortOption=3"><i class="material-icons">keyboard_arrow_up</i></a><a class="icons" href="/api/page/icd?sortOption=4"><i class="material-icons">keyboard_arrow_down</i></a></th><th>Usuń</th><th>Edytuj</th></tr></thead>
 				<% for(Rozpoznanie r : (List<Rozpoznanie>)request.getAttribute("listOfIcd")){ %>
 					<tr><td><%=r.getIcd()%></td><td><%=r.getOpis()%></td>
 					<td><a class="icons" href="/api/admin/icd/remove?icdId=<%=r.getId()%>"><i class="material-icons">delete</i></a></td>

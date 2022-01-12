@@ -73,19 +73,26 @@ public class AdminController {
     @GetMapping(value = "/icd/remove")
     public String removeIcd(HttpServletRequest request, ModelMap model, @RequestParam int icdId) {
         adminService.removeIcd(icdId);
-        return pageController.getIcdPage(request, model);
+        return pageController.getIcdPage(request, model, null);
     }
 
     @PostMapping(value = "/icd/edit")
     public String editIcd(HttpServletRequest request, ModelMap model, @RequestParam int icdId, @RequestParam String icd, @RequestParam String description) {
         adminService.editIcd(icdId, icd, description);
-        return pageController.getIcdPage(request, model);
+        return pageController.getIcdPage(request, model, null);
     }
 
     @PostMapping(value = "/icd/add")
     public String addIcd(HttpServletRequest request, ModelMap model, @RequestParam String icd, @RequestParam String description){
         adminService.addIcd(icd, description);
-        return pageController.getIcdPage(request, model);
+        return pageController.getIcdPage(request, model, null);
     }
+
+    @PostMapping("/medicines/add")
+    public String addMedicine(HttpServletRequest request, ModelMap model, @RequestParam String medicine, @RequestParam int amount){
+        adminService.addMedicine(medicine, amount);
+        return pageController.getMedicinesPage(request, model, null);
+    }
+
 
 }

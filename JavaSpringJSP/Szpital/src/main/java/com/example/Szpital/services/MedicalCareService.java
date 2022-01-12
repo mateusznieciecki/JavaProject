@@ -37,8 +37,25 @@ public class MedicalCareService {
         return iHistoriaChorobRepository.findByPeselWithLimit(pesel, limit);
     }
 
-    public List<Rozpoznanie> getListOfIcd() {
-        return iRozpoznanieRepository.findAll();
+    public List<Rozpoznanie> getListOfIcd(Integer sortOption) {
+        List<Rozpoznanie> listOfIcd;
+        if (sortOption == null) {
+            listOfIcd = iRozpoznanieRepository.findAll();
+        } else if (sortOption == 1) {
+            listOfIcd = iRozpoznanieRepository.findAllByOrderByIcdAsc();
+        } else if (sortOption == 2) {
+            listOfIcd = iRozpoznanieRepository.findAllByOrderByIcdDesc();
+        } else if (sortOption == 3) {
+            listOfIcd = iRozpoznanieRepository.findAllByOrderByOpisAsc();
+        } else {
+            listOfIcd = iRozpoznanieRepository.findAllByOrderByOpisDesc();
+        }
+
+        return listOfIcd;
+    }
+
+    public List<Rozpoznanie> searchSpecificIcd(String searchValue) {
+        return iRozpoznanieRepository.findSpecificIcd(searchValue);
     }
 
     public void putDiagnosis(String icdChoice, String diagnosis, Long pesel) {
@@ -54,8 +71,20 @@ public class MedicalCareService {
         }
     }
 
-    public List<Leki> getAllMedicines() {
-        return iLekiRepository.findAll();
+    public List<Leki> getAllMedicines(Integer sortOption) {
+        List<Leki> listOfMedicines;
+        if (sortOption == null) {
+            listOfMedicines = iLekiRepository.findAll();
+        } else if (sortOption == 1) {
+            listOfMedicines = iLekiRepository.findAllByOrderByNazwaAsc();
+        } else if (sortOption == 2) {
+            listOfMedicines = iLekiRepository.findAllByOrderByNazwaDesc();
+        } else if (sortOption == 3) {
+            listOfMedicines =iLekiRepository.findAllByOrderByIloscAsc();
+        } else {
+            listOfMedicines = iLekiRepository.findAllByOrderByIloscDesc();
+        }
+        return listOfMedicines;
     }
 
     public int checkTheAmountOfTheMedicine(String medicineName, int amount) {
@@ -77,13 +106,21 @@ public class MedicalCareService {
         }
     }
 
-    public void orderUnAvailableMedicine(String medicineName, int amount, String username){
+    public void orderUnAvailableMedicine(String medicineName, int amount, String username) {
         ZamowieniaLekow order = new ZamowieniaLekow(medicineName, amount, username);
         iZamowieniaLekowRepository.save(order);
     }
 
-    public Rozpoznanie findIcd(int icdId){
+    public Rozpoznanie findIcd(int icdId) {
         return iRozpoznanieRepository.findById(icdId).orElse(null);
+    }
+
+    public List<ZamowieniaLekow> findAllOrderedMedicines(){
+        return iZamowieniaLekowRepository.findAllByStatus(0);
+    }
+
+    public List<Leki> searchSpecificMedicines(String searchValue){
+        return iLekiRepository.findSpecificMedicines(searchValue);
     }
 
 }

@@ -19,4 +19,9 @@ public class Leki {
     private int id;
     private String nazwa;
     private int ilosc;
+
+    public Leki(String nazwa, int ilosc) {
+        this.nazwa = nazwa;
+        this.ilosc = ilosc;
+    }
 }

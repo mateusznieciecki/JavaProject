@@ -32,7 +32,7 @@
         							<a class="nav-link" href="/api/page/icd">ICD</a>
         						</li>
         						<li class="nav-item">
-        							<a class="nav-link" href="/api/admin/addMedicines">Dodaj leki</a>
+        							<a class="nav-link" href="/api/page/medicines">Dodaj leki</a>
         						</li>
         						<li class="nav-item d-md-none" style="text-align: center;">
         							<a href="/api/login/logout">Wyloguj się</a>
