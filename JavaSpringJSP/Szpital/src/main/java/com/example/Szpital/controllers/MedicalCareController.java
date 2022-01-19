@@ -4,6 +4,7 @@ import com.example.Szpital.entities.HistoriaChorob;
 import com.example.Szpital.entities.Pacjenci;
 import com.example.Szpital.entities.Pracownicy;
 import com.example.Szpital.entities.Rozpoznanie;
+import com.example.Szpital.services.LoginService;
 import com.example.Szpital.services.MedicalCareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,9 +27,19 @@ public class MedicalCareController {
     @Autowired
     private MedicalCareService medicalCareService;
 
+    @Autowired
+    private LoginService loginService;
+
     @GetMapping(value = "/patientDetails")
     public String openPatientDetails(HttpServletRequest request, ModelMap model, @RequestParam int id) {
-        Pacjenci patient = medicalCareService.findPatient(id);
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "lekarz")){
+            return pageController.getIndexPage(request, model);
+        }
+        Pacjenci patient = medicalCareService.findPatient(id, user);
+        if(patient == null){
+            return pageController.getDoctorPage(request,model);
+        }
         model.put("patient", patient);
 
         List<HistoriaChorob> listOfPatientsHistory = medicalCareService.findPatientsHistory(patient.getPesel(), 2);
@@ -37,12 +48,13 @@ public class MedicalCareController {
         List<Rozpoznanie> listOfIcd = medicalCareService.getListOfIcd(null);
         model.put("listOfIcd", listOfIcd);
         request.getSession().setAttribute("patient", patient);
-        return pageController.getPatientPage();
+        return pageController.getPatientPage(request, model);
     }
 
     @PostMapping(value = "/getPatientsHistory")
     public void getHistoryWithLimit(HttpServletRequest request, ModelMap model, @RequestParam int id, @RequestParam int limit) {
-        Pacjenci patient = medicalCareService.findPatient(id);
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        Pacjenci patient = medicalCareService.findPatient(id, user);
         model.put("patient", patient);
         request.getSession().setAttribute("patient", patient);
         List<HistoriaChorob> listOfPatientsHistory = medicalCareService.findPatientsHistory(patient.getPesel(), limit);
@@ -51,8 +63,11 @@ public class MedicalCareController {
 
     @PostMapping(value = "/morePatientHistory")
     public String morePatientHistory(HttpServletRequest request, ModelMap model, @RequestParam int limit) {
-        Pacjenci patientH = medicalCareService.findPatient(((Pacjenci) request.getSession().getAttribute("patient")).getId());
-//        Pacjenci patientH = medicalCareService.findPatient(((Pacjenci)request.getAttribute("patient")).getId());
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "lekarz")){
+            return pageController.getIndexPage(request, model);
+        }
+        Pacjenci patientH = medicalCareService.findPatient(((Pacjenci) request.getSession().getAttribute("patient")).getId(), user);
         model.put("patientH", patientH);
 
         List<HistoriaChorob> listOfPatientsHistory = medicalCareService.findPatientsHistory(patientH.getPesel(), limit);
@@ -62,19 +77,26 @@ public class MedicalCareController {
 
     @PostMapping(value = "/putDiagnosis")
     public String putDiagnosis(HttpServletRequest request, ModelMap model, @RequestParam String icdChoice, @RequestParam String diagnosis, @RequestParam Long pesel) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "lekarz")){
+            return pageController.getIndexPage(request, model);
+        }
         medicalCareService.putDiagnosis(icdChoice, diagnosis, pesel);
         medicalCareService.removePatientsDoctor(pesel);
-
+        model.put("message", "Zatwierdzono pacjenta");
         return pageController.getDoctorPage(request, model);
     }
 
     @PostMapping(value = "/orderMedicine")
     public String orderMedicines(HttpServletRequest request, ModelMap model, @RequestParam String medicine, @RequestParam int amount) {
-
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "lekarz")){
+            return pageController.getIndexPage(request, model);
+        }
         int result = medicalCareService.checkTheAmountOfTheMedicine(medicine, amount);
         model.put("result", result);
 
-        return pageController.getMedicineConfirmationPage();
+        return pageController.getMedicineConfirmationPage(request, model);
     }
 
     @PostMapping(value = "/orderAvailable")

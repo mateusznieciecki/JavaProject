@@ -78,7 +78,7 @@
 
         </div>
         <h2 class="secondary-header-class">Rozpoznanie</h2>
-        <form action="/api/medicalCare/putDiagnosis?pesel=<%=((Pacjenci)request.getAttribute("patient")).getPesel()%>" method="post">
+        <form action="/api/medicalCare/putDiagnosis" method="post">
             <select class="wybor_icd" name="icdChoice" required>
                 <option value="" selected disabled hidden>Rozpoznanie</option>
                 <% for(Rozpoznanie r : (List<Rozpoznanie>)request.getAttribute("listOfIcd")){ %>
@@ -87,6 +87,7 @@
             </select><br>
             <textarea name="diagnosis" class="form-control" rows="10" cols="50" placeholder="Opis słowny stanu pacjenta"></textarea>
             <br>
+            <input type="hidden" value="<%=((Pacjenci)request.getAttribute("patient")).getPesel()%>" name="pesel">
             <input type="submit" class="btn btn-secondary" value="Zatwierdź pacjenta">
         </form>
         <h2 class="secondary-header-class">Historia chorób</h2>

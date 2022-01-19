@@ -15,12 +15,43 @@
                     </button>
                     <div class="collapse navbar-collapse" id="mainmenu" style="margin-left: 15px">
                         <ul class="navbar-nav mr-auto">
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("rejestrator")){ %>
                             <li class="nav-item">
                                 <a class="nav-link" href="/api/page/szpital">Strona Główna</a>
                             </li>
+                            <% } %>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("lekarz")){ %>
                             <li class="nav-item">
-                                <a class="nav-link" href="/api/mail/openMailbox">Poczta</a>
+                                <a class="nav-link" href="/api/page/doctor">Strona Główna</a>
                             </li>
+                            <% } %>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("admin")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/admin/panel">Strona Główna</a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/api/mail/openMailbox">Poczta</a>
+                            </li>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("lekarz")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/orderMedicines">Zamów Leki</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/forum">Forum</a>
+                            </li>
+                            <% } %>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("admin")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/admin/users">Użytkownicy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/icd">ICD</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/medicines">Dodaj leki</a>
+                            </li>
+                            <% } %>
                             <li class="nav-item d-md-none" style="text-align: center;">
                                 <a href="/api/login/logout">Wyloguj się</a>
                             </li>

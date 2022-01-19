@@ -35,6 +35,9 @@
         </nav>
     </header>
     <div class="container container-search">
+        <% if((String)request.getAttribute("message")!=null){%>
+            <div class="alert alert-dark blad" role="alert"><%=(String)request.getAttribute("message")%></div>
+        <% } %>
         <form class="form-signin" action="/api/register/zarejestruj" method="post" onsubmit="return validateForm()">
         Wyszukaj po numerze PESEL lub nazwisku:
         <div class="form-floating mb-3">

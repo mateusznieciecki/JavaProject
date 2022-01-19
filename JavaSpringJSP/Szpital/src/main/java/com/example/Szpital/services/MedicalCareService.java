@@ -29,8 +29,13 @@ public class MedicalCareService {
         return iPacjenciRepository.findAllByLekProw(doctorNameAndSurname);
     }
 
-    public Pacjenci findPatient(int id) {
-        return iPacjenciRepository.findById(id).orElse(null);
+    public Pacjenci findPatient(int id, Pracownicy currentUser) {
+        Pacjenci patient = iPacjenciRepository.findById(id).orElse(null);
+        String currentUserFullName = currentUser.getImie() + " " + currentUser.getNazwisko();
+        if(currentUserFullName.equals(patient.getLekProw())){
+            return patient;
+        }
+        return null;
     }
 
     public List<HistoriaChorob> findPatientsHistory(Long pesel, int limit) {

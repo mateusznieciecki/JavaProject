@@ -43,6 +43,9 @@
     		</nav>
     	</header>
 	<div class="container container-search">
+        <% if((String)request.getAttribute("message")!=null){%>
+            <div class="alert alert-dark blad" role="alert"><%=(String)request.getAttribute("message")%></div>
+        <% } %>
 		<button class="btn btn-outline-secondary float-right addbutton" type="button" data-toggle="collapse" data-target="#search_collapse" aria-expanded="false" aria-controls="search_collapse">
 			Szukaj
 		</button>

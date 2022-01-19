@@ -52,7 +52,7 @@
                                 } else if (result.isDenied) {}
                             })
                         } else {
-                            if (medicine == 'Wybierz lek' || !amount || amount < 1 || amount % 1 !== 0) {
+                            if (medicine == 'Wybierz lek' || !amount || amount < 1 || amount % 1 !== 0 || isNaN(amount)) {
                                 Swal.fire('Wpisz właściwe dane')
                             } else {
                                 Swal.fire({

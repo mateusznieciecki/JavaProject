@@ -26,25 +26,23 @@ public class LoginController {
     private MedicalCareService medicalCareService;
 
     @GetMapping(value = "/index")
-    public String showLoginPage(ModelMap model) {
-        model.put("myMessage", "helo");
-        return pageController.getIndexPage();
+    public String showLoginPage(HttpServletRequest request, ModelMap model) {
+        return pageController.getIndexPage(request, model);
     }
 
     @PostMapping(value = "/login")
     public String login(HttpServletRequest request, ModelMap model, @RequestParam String login, @RequestParam String haslo) {
-
         Pracownicy pracownik = loginService.login(login, haslo);
 
         if (pracownik == null) {
             model.put("errorMessage", "True");
-            return pageController.getIndexPage();
+            return pageController.getIndexPage(request, model);
         }
 
         request.getSession().setAttribute("pracownik", pracownik);
 
         if (pracownik.getTypPrac().equals("rejestrator")) {
-            return pageController.getSzpitalPage();
+            return pageController.getSzpitalPage(request, model);
         } else if (pracownik.getTypPrac().equals("lekarz")) {
             return pageController.getDoctorPage(request, model);
         }
@@ -52,10 +50,15 @@ public class LoginController {
     }
 
     @GetMapping(value = "/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpServletRequest request, ModelMap model) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "all")){
+            return pageController.getIndexPage(request, model);
+        }
+
         request.getSession().removeAttribute("pracownik");
 
-        return pageController.getIndexPage();
+        return pageController.getIndexPage(request, model);
     }
 
 }

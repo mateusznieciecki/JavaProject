@@ -2,6 +2,7 @@ package com.example.Szpital.controllers;
 
 import com.example.Szpital.entities.Pacjenci;
 import com.example.Szpital.entities.Pracownicy;
+import com.example.Szpital.services.LoginService;
 import com.example.Szpital.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,16 @@ public class RegisterController {
     @Autowired
     private PageController pageController;
 
+    @Autowired
+    private LoginService loginService;
+
     @PostMapping(value = "/zarejestruj")
     public String findByNameOrPesel(HttpServletRequest request, ModelMap model, @RequestParam(required = false) Long pesel, @RequestParam(required = false) String nazwisko) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "rejestrator")){
+            return pageController.getIndexPage(request, model);
+        }
+
         List<Pacjenci> pacjentList = registerService.findPacjent(pesel, nazwisko);
         List<Pracownicy> lekarzeList = registerService.findLekarze();
         model.put("lekarzeList", lekarzeList);
@@ -43,6 +52,10 @@ public class RegisterController {
 
     @PostMapping(value = "/oswiadczenie")
     public String printDocument(HttpServletRequest request, ModelMap model, @RequestParam int id) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "rejestrator")){
+            return pageController.getIndexPage(request, model);
+        }
         Pacjenci pacjent = registerService.findPacjent(id);
         model.put("imiePacjenta", pacjent.getImie());
         model.put("nazwiskoPacjenta", pacjent.getNazwisko());
@@ -51,18 +64,32 @@ public class RegisterController {
 
     @PostMapping(value = "/updateLekarz")
     public String updateLekarz(HttpServletRequest request, ModelMap model, @RequestParam String lekProwP, @RequestParam int id) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "rejestrator")){
+            return pageController.getIndexPage(request, model);
+        }
         registerService.updatePacjent(lekProwP, id);
-        return pageController.getSzpitalPage();
+        model.put("message", "Zaktualizowano lekarza prowadzącego");
+        return pageController.getSzpitalPage(request, model);
     }
 
     @GetMapping(value = "/deletePacjent")
     public String deletePacjent(HttpServletRequest request, ModelMap model, @RequestParam int id) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "rejestrator")){
+            return pageController.getIndexPage(request, model);
+        }
         registerService.deletePacjent(id);
-        return pageController.getSzpitalPage();
+        model.put("message", "Usunięto pacjenta");
+        return pageController.getSzpitalPage(request, model);
     }
 
     @PostMapping(value = "/addPacjent")
     public String addPacjent(HttpServletRequest request, ModelMap model, @RequestParam Long peselP, @RequestParam String imieP, @RequestParam String nazwiskoP, @RequestParam String dataP, @RequestParam String lekProwP, @RequestParam String ubezpieczenieP, @RequestParam String stanP) {
+        Pracownicy user = (Pracownicy) request.getSession().getAttribute("pracownik");
+        if(!loginService.checkAccessRights(user, "rejestrator")){
+            return pageController.getIndexPage(request, model);
+        }
         Date dataUr = null;
         Date dataUb = null;
 
@@ -74,6 +101,7 @@ public class RegisterController {
         }
 
         registerService.addPacjent(peselP, imieP, nazwiskoP, dataUr, lekProwP, dataUb, stanP);
-        return pageController.getSzpitalPage();
+        model.put("message", "Zarejestrowano pacjenta");
+        return pageController.getSzpitalPage(request, model);
     }
 }

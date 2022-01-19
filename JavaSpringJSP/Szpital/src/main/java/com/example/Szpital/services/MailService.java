@@ -31,7 +31,11 @@ public class MailService {
 
     public Wiadomosci findMail(int idWiadomosci, String login) {
         Wiadomosci mail = iWiadomosciRepository.findById(idWiadomosci).orElse(null);
-        if (mail != null && mail.getStatus() == 0 && mail.getDoKogo().equals(login)) {
+        if (mail == null || (!mail.getDoKogo().equals(login) && !mail.getOd().equals(login))) {
+            return null;
+        }
+
+        if (mail.getStatus() == 0 && mail.getDoKogo().equals(login)) {
             mail.setStatus(1);
             iWiadomosciRepository.save(mail);
         }

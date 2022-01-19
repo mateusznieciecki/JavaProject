@@ -20,4 +20,13 @@ public class LoginService {
         }
         return null;
     }
+
+    public boolean checkAccessRights(Pracownicy user, String level) {
+        if (user != null) {
+            return user.getTypPrac().equals(level) || level.equals("all");
+        }
+
+        return false;
+    }
+
 }

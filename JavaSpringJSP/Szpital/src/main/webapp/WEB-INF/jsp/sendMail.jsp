@@ -14,33 +14,64 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
     <header>
-                    <nav class="navbar navbar-expand-md navbar-light bg-light">
-                        <div class="container-fluid">
-                                <span id="tytul">Witaj <%=((Pracownicy) request.getSession().getAttribute("pracownik")).getImie() %> <%=((Pracownicy) request.getSession().getAttribute("pracownik")).getNazwisko() %></span>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="mainmenu" style="margin-left: 15px">
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/api/page/szpital">Strona Główna</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="/api/mail/openMailbox">Poczta</a>
-                                    </li>
-                                    <li class="nav-item d-md-none" style="text-align: center;">
-                                        <a href="/api/login/logout">Wyloguj się</a>
-                                    </li>
-                                </ul>
-
-                            </div>
-
-                            <div class="d-none d-md-block">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <div class="container-fluid">
+                        <span id="tytul">Witaj <%=((Pracownicy) request.getSession().getAttribute("pracownik")).getImie() %> <%=((Pracownicy) request.getSession().getAttribute("pracownik")).getNazwisko() %></span>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="mainmenu" style="margin-left: 15px">
+                        <ul class="navbar-nav mr-auto">
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("rejestrator")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/szpital">Strona Główna</a>
+                            </li>
+                            <% } %>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("lekarz")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/doctor">Strona Główna</a>
+                            </li>
+                            <% } %>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("admin")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/admin/panel">Strona Główna</a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/api/mail/openMailbox">Poczta</a>
+                            </li>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("lekarz")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/orderMedicines">Zamów Leki</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/forum">Forum</a>
+                            </li>
+                            <% } %>
+                            <% if(((Pracownicy) request.getSession().getAttribute("pracownik")).getTypPrac().equals("admin")){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/admin/users">Użytkownicy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/icd">ICD</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/page/medicines">Dodaj leki</a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item d-md-none" style="text-align: center;">
                                 <a href="/api/login/logout">Wyloguj się</a>
-                            </div>
-                        </div>
-                    </nav>
-                </header>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="d-none d-md-block">
+                        <a href="/api/login/logout">Wyloguj się</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">

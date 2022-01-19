@@ -29,19 +29,22 @@
                             <a class="nav-link" href="/api/page/forum">Forum</a>
                         </li>
                         <li class="nav-item d-md-none" style="text-align: center;">
-                            <a href="logout.php">Wyloguj się</a>
+                            <a href="/api/login/logout">Wyloguj się</a>
                         </li>
                     </ul>
 
                 </div>
 
                 <div class="d-none d-md-block">
-                    <a href="logout.php">Wyloguj się</a>
+                    <a href="/api/login/logout">Wyloguj się</a>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container container-top">
+    <% if((String)request.getAttribute("message")!=null){%>
+        <div class="alert alert-dark blad" role="alert"><%=(String)request.getAttribute("message")%></div>
+    <% } %>
     <h2>Oczekujący pacjenci</h2>
     <div class="list-group">
         <% for(Pacjenci p : (List<Pacjenci>)request.getAttribute("listOfDoctorsPatients")){ %>
